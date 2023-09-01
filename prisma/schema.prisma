@@ -24,8 +24,8 @@ model User {
 }
 
 enum Role {
-  ADMIN
-  CUSTOMER
+  admin
+  customer
 }
 
 model Category {
@@ -67,5 +67,5 @@ model Order {
 enum OrderStatus {
   pending
   shipped
-  DELIVERED
+  delivered
 }
