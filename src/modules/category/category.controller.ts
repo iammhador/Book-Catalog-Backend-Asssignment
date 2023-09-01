@@ -7,7 +7,7 @@ const getAllCategory = async (req: Request, res: Response) => {
   res.send({
     success: true,
     statusCode: httpStatus.OK,
-    message: "Category retrieved successfully",
+    message: "Categories retrieved successfully",
     data: result,
   });
 };

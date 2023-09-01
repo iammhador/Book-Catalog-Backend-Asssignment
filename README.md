@@ -1,9 +1,18 @@
+## TASK I HAVE TO COMPLETE =>
+
+=> HAVE TO COMPLETE JWT
+=> DECODED TOKEN
+=> ADD ROLE VERIFICATION
+=> BOOK FILTERING (LIMIT, SEARCH, SORT BY, SORT ORDER ETC)
+
+## BONUS PART =>
+
+=> GET SINGLE ORDER BY ID : ONLY FOR SPECIFIC CUSTOMERS AND ADMINS
+=> GET USER PROFILE DATA : ONLY FOR SPECIFIC USER (CUSTOMER AND ADMIN)
+
 # l2-b1-assignment-8
 
 # Build a Book Catallog Backend Assignment
-
-<!-- ### Create Private Repo with this [link](https://classroom.github.com/a/le5T8iGk)
-[https://classroom.github.com/a/le5T8iGk](https://classroom.github.com/a/le5T8iGk) -->
 
 <hr>
 
@@ -51,7 +60,7 @@ Create a `Book` model with the following fields:
 - author: A string representing the book's author.
 - price: A floating-point number representing the book's price.
 - genre: A string representing the book's genre.
-- publicationDate: A DateTime field representing the book's publication date.
+- publicationDate: A string field representing the book's publication date.
 - categoryId: A UUID representing the category to which the book belongs.
 
 ### Review And Rating:
@@ -60,7 +69,7 @@ Create a `ReviewAndRating` model with the following fields:
 
 - id: A UUID generated using the @default(uuid()) attribute.
 - review: A string representing the user's review.
-- rating: An integer representing the user's rating.
+- rating: An integer representing the user's rating. (1 - 5)
 - userId: A UUID representing the user who submitted the review.
 - bookId: A UUID representing the book being reviewed.
 
@@ -75,18 +84,23 @@ Create an `Order` model with the following fields:
 - createdAt: A DateTime field representing the order creation timestamp.
 
 #### Storing Ordered Books: Hints and Guidelines
+
 When it comes to storing ordered books in your application, you have a range of choices. Here, we'll delve into two prevalent strategies: utilizing a JSON field to hold the data, or alternatively, crafting a distinct model for ordered books. Feel free to select any approach that best suits for you.
 
 ##### Approach 1: Using JSON Type
+
 1. Define the JSON Field:
+
 - In the `Order` model, define the `orderedBooks` field as a JSON data type.
 - Use Prisma's Json type to represent JSON data.
 
 2. Storing Array of Objects:
+
 - In the `orderedBooks` field, store an array of objects, each containing `bookId` and `quantity`.
 - JSON arrays are enclosed in square brackets [], and objects are enclosed in curly braces {}.
 
 3. Example JSON Structure:
+
 ```json
 [
   { "bookId": "uuid1", "quantity": 2 },
@@ -97,16 +111,18 @@ When it comes to storing ordered books in your application, you have a range of 
 #### Approach 2: Using Separate Model
 
 1. Define OrderedBook Model:
+
 - Create an `OrderedBook` model with fields: `id`, `orderId`, `bookId`, and `quantity`.
 - Use the @default(uuid()) attribute to generate UUIDs for id.
 
 2. Create Relationship:
+
 - In the `Order` model, establish a one-to-many relationship to `OrderedBook`.
 - This enables each order to have multiple associated ordered book entries.
 
 # Main Part:
 
-## API End points and Sample Data:
+## API Endpoints and Sample Data:
 
 ## Implement Create, Read, Update, and Delete Operations for Users Listing
 
@@ -149,6 +165,42 @@ Response Sample Data:
 }
 ```
 
+### User Sign In/Login
+
+Route: /api/v1/auth/signin (POST)
+
+Request body:
+
+```json
+{
+  "email": "john@example.com",
+  "password": "john123"
+}
+```
+
+Response: A object with user JWT token.
+
+Response Sample Data:
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "User signin successfully!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
+}
+```
+
+Decoded Token:
+
+```json
+{
+  "role": "customer",
+  "userId": "o577-x888-dd86-dd2f",
+  "iat": 1516239022   → "Please set the iat at least 1 year"
+}
+```
+
 ### Get All Users → Only Allowed For Admin
 
 Route: /api/v1/users (GET)
@@ -173,11 +225,10 @@ Response Sample Data:
       "contactNo": "1234567890",
       "address": "Dhaka, Bangladesh",
       "profileImg": "user.jpg"
-    },
+    }
     // More users...
   ]
 }
-
 ```
 
 ### Get a Single User → Only Allowed For Admin
@@ -205,7 +256,8 @@ Route: /api/v1/users/:id (PATCH)
 
 Request Param: :id
 
-Request Body: 
+Request Body:
+
 ```json
 {
   "name": "John Doe1",
@@ -269,7 +321,7 @@ Response: The newly created category object.
 Response Sample Pattern:
 
 ```json
- {
+{
   "success": true,
   "statusCode": 200,
   "message": "Category created successfully",
@@ -278,12 +330,11 @@ Response Sample Pattern:
     "title": "Programming"
   }
 }
-
 ```
 
 ### Get All Categories
 
-Route: /api/v1/ategories (GET)
+Route: /api/v1/categories (GET)
 
 Request body:
 
@@ -302,7 +353,7 @@ Response Sample Pattern:
 
 ### Get a Single Category
 
-Route: /api/v1/users/:id (GET)
+Route: /api/v1/categories/:id (GET)
 
 Request Param: :id
 
@@ -339,7 +390,6 @@ Response Sample Data:
     ]
   }
 }
-
 ```
 
 ### Update a Category → Only Allowed For Admin
@@ -348,7 +398,8 @@ Route: /api/v1/categories/:id (PATCH)
 
 Request Param: :id
 
-Request Body: 
+Request Body:
+
 ```json
 {
   "title": "Fiction"
@@ -369,7 +420,6 @@ Response Sample Data:
     "title": "Fiction"
   }
 }
-
 ```
 
 ### Delete a Category → Only Allowed For Admin
@@ -392,7 +442,6 @@ Response Sample Data:
     "title": "Fiction"
   }
 }
-
 ```
 
 ## Implement Create, Read, Update, and Delete Operations for Book listings.
@@ -437,7 +486,6 @@ Response Sample Pattern:
     }
   }
 }
-
 ```
 
 ### Get All Books
@@ -451,7 +499,7 @@ Response: The books array of objects with paginated metadata.
 Response Sample Pattern:
 
 ```json
-  {
+{
   "success": true,
   "statusCode": 200,
   "message": "Books fetched successfully",
@@ -462,11 +510,11 @@ Response Sample Pattern:
     "totalPage": 10
   },
   "data": [
-    {},{},
+    {},
+    {}
     // More books...
   ]
 }
-
 ```
 
 ### Seraching and filtering book listings: ( You do not need to implement searching and pagination as we implemented, you can do as your own )
@@ -476,39 +524,40 @@ Route: /api/v1/books?
 Query parameters: (Case Insensitive)
 
 - page: The page number for pagination (e.g., ?page=1).
-- size: The number of book listings per page (e.g. ?limit=10).
+- size: The number of book listings per page (e.g. ?size=10).
 - sortBy: The field to sort the cow listings (e.g. ?sortBy=price).
 - sortOrder : The order of sorting, either 'asc' or 'desc' (e.g. ?sortOrder=asc).
 - minPrice: The minimum price for filtering (e.g. ?minPrice=1000).
 - maxPrice: The maximum price for filtering (e.g. ?maxPrice=5000).
 - category: Filter using category id (e.g : ?category=f1234573-sfkjsf-45332)
-- search: The search query string for searching books (e.g., ?title="Programmig"). (Search Fields should be title,author,genre)
+- search: The search query string for searching books (e.g., ?search="Programmig"). (Search Fields should be title,author,genre)
 
 Response: An array of books listing objects that match the provided filters, limited to the specified page ,size and total page.
 
 Response Sample Pattern:
 
 ```json
-  {
-      "success": true,
-      "statusCode":200,
-      "message": "Books fetched successfully",
-      "meta": {
-        "page": 3,
-        "size": 10,
-        "total":63,
-        "totalPage":7
-        },
-      "data": [
-        {},{},
-        // More books
-        ]
-  }
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Books fetched successfully",
+  "meta": {
+    "page": 3,
+    "size": 10,
+    "total": 63,
+    "totalPage": 7
+  },
+  "data": [
+    {},
+    {}
+    // More books
+  ]
+}
 ```
 
 ### Get Books By CategoryId
 
-Route: /api/v1/books/:categoryId (GET)
+Route: /api/v1/books/:categoryId/category (GET)
 
 Request Param: :categoryId
 
@@ -517,7 +566,7 @@ Response: The books array of objects with paginated metadata.
 Response Sample Pattern:
 
 ```json
-  {
+{
   "success": true,
   "statusCode": 200,
   "message": "Books with associated category data fetched successfully",
@@ -528,11 +577,11 @@ Response Sample Pattern:
     "totalPage": 3
   },
   "data": [
-    {},{},
+    {},
+    {}
     // More books...
   ]
 }
-
 ```
 
 ### Get a Single Book
@@ -560,7 +609,6 @@ Response Sample Data:
     "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d"
   }
 }
-
 ```
 
 ### Update a Single Book → Only Allowed For Admin
@@ -569,13 +617,14 @@ Route: /api/v1/books/:id (PATCH)
 
 Request Param: :id
 
-Request Body: 
+Request Body:
+
 ```json
 {
   "title": "The Catcher in the Rye Part-1",
   "author": "J.D. John",
   "genre": "Programming",
-  "price": 340.75,
+  "price": 340.75
 }
 ```
 
@@ -598,7 +647,6 @@ Response Sample Data:
     "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d"
   }
 }
-
 ```
 
 ### Delete a book → Only Allowed for admins
@@ -632,13 +680,24 @@ Response Sample Data:
 
 ### Create Order → Only Allowed For Customer
 
-Route: /api/v1/orders/create-order (POST) 
+Route: /api/v1/orders/create-order (POST)
 
-Request body:
+Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
+
+Decoded Token:
 
 ```json
 {
-  "userId": "b2e06b3e-87bf-4b11-a74a-29c66f8f48df",
+  "role": "customer",
+  "userId": "o577-x888-dd86-dd2f",
+  "iat": 1516239022   → "Please set the iat at least 1 year"
+}
+```
+
+Request Body:
+
+```json
+{
   "orderedBooks": [
     {
       "bookId": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
@@ -650,7 +709,6 @@ Request body:
     }
   ]
 }
-
 ```
 
 Response: The newly created order object.
@@ -681,6 +739,8 @@ Response Sample Pattern:
 }
 ```
 
+Hints: You will have to decode the userId from token for creating order for specific customer.
+
 ### Get all Order → Only Allowed For Admins
 
 Route: /api/v1/orders (GET)
@@ -695,15 +755,15 @@ Response Sample Pattern:
   "statusCode": 200,
   "message": "Orders retrieved successfully",
   "data": [
-    {},
+    {}
     // More orders...
   ]
 }
 ```
 
-### Get all Order for specific Customer → Only Specific For Customer
+### Get all Order for specific Customers → Only Specific Customers
 
-Route: /api/v1/orders (GET) 
+Route: /api/v1/orders (GET)
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -727,18 +787,17 @@ Response Sample Pattern:
   "statusCode": 200,
   "message": "Orders retrieved successfully",
   "data": [
-    {},
+    {}
     // More orders...
   ]
 }
-
 ```
 
 # Bonus Part:
 
 ### Get single order by Id → Only for specific customer and admins
 
-Route: /api/v1/orders/:orderId (Get) 
+Route: /api/v1/orders/:orderId (Get)
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -759,6 +818,7 @@ Please follow these steps to access the specific order:
 - If the user's role is a customer, verify that the order's userId matches the userId of the customer who placed the order. This step ensures that only customers who ordered individually will be able to see the specific order.
 
 Sample Response Data:
+
 ```json
 {
   "success": true,
@@ -781,12 +841,11 @@ Sample Response Data:
     "createdAt": "2023-08-28T10:00:00Z"
   }
 }
-
 ```
 
 ### Get User Profile Data → Only for specific user (customer and admin)
 
-Route: /api/v1/profile (Get) 
+Route: /api/v1/profile (Get)
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -832,7 +891,7 @@ Please follow these steps to access the specific profile:
 
 ### What to submit
 
-1. Your Github Private Repository Link
+1. Your Github Repository Link
 2. Deployed Live Link (Vercel / Railway / Heroku or any other platform)
    - `** Do not use a logger. It will not work on the free hosting platforms **`
 3. Must include all the routes into Readme.md file.
@@ -864,7 +923,7 @@ Please follow these steps to access the specific profile:
 
 - api/v1/books/create-book (POST)
 - api/v1/books (GET)
-- api/v1/books/:categoryId (GET)
+- api/v1/books/:categoryId/category (GET)
 - api/v1/books/:id (GET)
 - api/v1/books/:id (PATCH)
 - api/v1/books/:id (DELETE)
@@ -872,6 +931,5 @@ Please follow these steps to access the specific profile:
 ### Orders
 
 - api/v1/orders/create-order (POST)
-- api/v1/orders (GET) 
+- api/v1/orders (GET)
 - api/v1/orders/:orderId (GET)
-

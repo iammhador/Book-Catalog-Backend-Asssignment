@@ -2,7 +2,11 @@ import { Category } from "@prisma/client";
 import { prisma } from "../../shared/prisma";
 
 const getAllCategory = async (): Promise<Category[]> => {
-  const result = await prisma.category.findMany({});
+  const result = await prisma.category.findMany({
+    include: {
+      books: true,
+    },
+  });
   return result;
 };
 
@@ -10,6 +14,9 @@ const getCategoryById = async (id: string): Promise<Category> => {
   const result = await prisma.category.findUnique({
     where: {
       id,
+    },
+    include: {
+      books: true,
     },
   });
 
@@ -35,6 +42,9 @@ const updateCategoryById = async (
     where: {
       id,
     },
+    include: {
+      books: true,
+    },
     data,
   });
   return result;
@@ -44,6 +54,9 @@ const deleteCategoryById = async (id: string): Promise<Category> => {
   const result = await prisma.category.delete({
     where: {
       id,
+    },
+    include: {
+      books: true,
     },
   });
   return result;

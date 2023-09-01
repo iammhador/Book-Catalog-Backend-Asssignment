@@ -35,14 +35,16 @@ model Category {
 }
 
 model Book {
-  id              String   @id @default(uuid())
+  id              String        @id @default(uuid())
   title           String
   author          String
   price           Float
-  publicationDate DateTime @default(now())
+  genre           String
+  publicationDate String
   categoryId      String
-  category        Category @relation(fields: [categoryId], references: [id])
+  category        Category      @relation(fields: [categoryId], references: [id])
   ratings         Rating[]
+  orderedBooks    OrderedBook[]
 }
 
 model Rating {
@@ -56,12 +58,21 @@ model Rating {
 }
 
 model Order {
-  id           String      @id @default(uuid())
+  id           String        @id @default(uuid())
   userId       String
-  user         User        @relation(fields: [userId], references: [id])
-  orderedBooks Json
+  user         User          @relation(fields: [userId], references: [id])
   status       OrderStatus
-  createdAt    DateTime    @default(now())
+  createdAt    DateTime      @default(now())
+  orderedBooks OrderedBook[]
+}
+
+model OrderedBook {
+  id       String @id @default(uuid())
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id])
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id])
+  quantity Int
 }
 
 enum OrderStatus {
