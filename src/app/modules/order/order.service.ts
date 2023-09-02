@@ -1,5 +1,5 @@
 import { Order, OrderedBook, Prisma } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
+import { prisma } from "../../../shared/prisma";
 
 const getAllOrder = async (): Promise<Order[]> => {
   const result = await prisma.order.findMany({

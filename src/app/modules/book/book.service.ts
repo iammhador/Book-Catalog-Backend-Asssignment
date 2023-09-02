@@ -1,5 +1,5 @@
 import { Book } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
+import { prisma } from "../../../shared/prisma";
 
 const getAllBooks = async (option: any): Promise<Book[]> => {
   const {

@@ -1,9 +1,10 @@
 import express from "express";
-import { AuthRoutes } from "../modules/auth/auth.routes";
-import { UserRoutes } from "../modules/user/user.routes";
-import { CategoryRoutes } from "../modules/category/category.routes";
-import { BookRoutes } from "../modules/book/book.routes";
-import { OrderRoutes } from "../modules/order/order.routes";
+import { AuthRoutes } from "../app/modules/auth/auth.routes";
+import { UserRoutes } from "../app/modules/user/user.routes";
+import { CategoryRoutes } from "../app/modules/category/category.routes";
+import { BookRoutes } from "../app/modules/book/book.routes";
+import { OrderRoutes } from "../app/modules/order/order.routes";
+
 const router = express.Router();
 
 const moduleRoutes = [

@@ -1,5 +1,5 @@
 import { Category } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
+import { prisma } from "../../../shared/prisma";
 
 const getAllCategory = async (): Promise<Category[]> => {
   const result = await prisma.category.findMany({

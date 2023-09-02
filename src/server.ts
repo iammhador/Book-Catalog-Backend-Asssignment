@@ -1,8 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import router from "./routes";
-import { AuthRoutes } from "./modules/auth/auth.routes";
-import { UserRoutes } from "./modules/user/user.routes";
 require("dotenv").config();
 const app: Application = express();
 const port = process.env.PORT || 5000;
