@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .get("/", auth(ENUM_USER_ROLE.ADMIN), UserController.getAllUsers)
-  .get("/:id", UserController.getUserById)
+  .get("/:id", auth(ENUM_USER_ROLE.ADMIN), UserController.getUserById)
   .patch("/:id", UserController.updateUserById)
   .delete("/:id", UserController.deleteUserById);
 
