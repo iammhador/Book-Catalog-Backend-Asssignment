@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { BookService } from "./book.service";
 
 const getAllBooks = async (req: Request, res: Response) => {
-  const result = await BookService.getAllBooks();
+  const result = await BookService.getAllBooks(req.query);
   res.send({
     success: true,
     statusCode: httpStatus.OK,
