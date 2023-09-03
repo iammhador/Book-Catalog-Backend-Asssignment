@@ -13,5 +13,5 @@ router
     .get("/", (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), order_controller_1.OrderController.getAllOrder)
     .get("/:orderId", (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.OrderController.getSpecificOrder)
     .post("/create-order", (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.OrderController.createOrder)
-    .post("/order-book", order_controller_1.OrderController.createOrderBook);
+    .post("/order-book", (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER), order_controller_1.OrderController.createOrderBook);
 exports.OrderRoutes = router;

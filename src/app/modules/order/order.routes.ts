@@ -16,6 +16,10 @@ router
     auth(ENUM_USER_ROLE.CUSTOMER),
     OrderController.createOrder
   )
-  .post("/order-book", OrderController.createOrderBook);
+  .post(
+    "/order-book",
+    auth(ENUM_USER_ROLE.CUSTOMER),
+    OrderController.createOrderBook
+  );
 
 export const OrderRoutes = router;

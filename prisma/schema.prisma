@@ -61,7 +61,7 @@ model Order {
   id           String        @id @default(uuid())
   userId       String
   user         User          @relation(fields: [userId], references: [id])
-  status       OrderStatus
+  status       OrderStatus   @default(pending)
   createdAt    DateTime      @default(now())
   orderedBooks OrderedBook[]
 }
