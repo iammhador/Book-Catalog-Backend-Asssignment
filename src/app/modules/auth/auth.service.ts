@@ -1,18 +1,8 @@
 import { User } from "@prisma/client";
 import { prisma } from "../../../shared/prisma";
-
-interface IUser {
-  id?: string;
-  name: string;
-  email: string;
-  password?: string;
-  role: string;
-  contactNo: string;
-  address: string;
-  profileImg: string;
-  orders: any[];
-  ratings: any[];
-}
+import { IAuthUser, IAuthUserResponse, IUser } from "./auth.interface";
+import { JWTHelpers } from "../../../helpers/jwt";
+import { Secret } from "jsonwebtoken";
 
 const signUpUser = async (data: User): Promise<IUser> => {
   const result = await prisma.user.create({
@@ -33,13 +23,35 @@ const signUpUser = async (data: User): Promise<IUser> => {
   return result;
 };
 
-const signInUser = async (data: User): Promise<User> => {
-  const result = await prisma.user.create({
-    data,
+const signInUser = async (data: IAuthUser): Promise<IAuthUserResponse> => {
+  const { email, password } = data;
+
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
   });
-  return result;
+
+  if (!isUserExist) {
+    throw new Error("User does not exist");
+  }
+
+  if (isUserExist.password !== password) {
+    throw new Error("password is incorrect");
+  }
+
+  const { id, role } = isUserExist;
+
+  const token = JWTHelpers.createToken(
+    { id, role },
+    process.env.JWT_SECRET as Secret,
+    process.env.JWT_EXPIRES_IN as string
+  );
+
+  return { token };
 };
 
 export const AuthService = {
   signUpUser,
+  signInUser,
 };

@@ -12,6 +12,19 @@ const signUpUser = async (req: Request, res: Response) => {
   });
 };
 
+const signInUser = async (req: Request, res: Response) => {
+  const { ...authData } = req.body;
+
+  const result = await AuthService.signInUser(authData);
+  res.send({
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User sign in successfully!",
+    data: result,
+  });
+};
+
 export const AuthController = {
   signUpUser,
+  signInUser,
 };
