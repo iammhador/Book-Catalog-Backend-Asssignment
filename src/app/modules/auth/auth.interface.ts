@@ -1,3 +1,5 @@
+import { Order, Rating } from "@prisma/client";
+
 export interface IUser {
   id?: string;
   name: string;
@@ -7,8 +9,8 @@ export interface IUser {
   contactNo: string;
   address: string;
   profileImg: string;
-  orders?: any[];
-  ratings?: any[];
+  orders?: Order[];
+  ratings?: Rating[];
 }
 
 export interface IAuthUser {

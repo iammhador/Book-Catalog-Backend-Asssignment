@@ -1,11 +1,6 @@
-## BONUS PART =>
-
-=> GET SINGLE ORDER BY ID : ONLY FOR SPECIFIC CUSTOMERS AND ADMINS
-=> GET USER PROFILE DATA : ONLY FOR SPECIFIC USER (CUSTOMER AND ADMIN)
-
 # l2-b1-assignment-8
 
-# Build a Book Catallog Backend Assignment
+# Build a Book Catalog Backend Assignment
 
 <hr>
 

@@ -1,6 +1,18 @@
-import { User } from "@prisma/client";
+import { Order, Rating, User } from "@prisma/client";
 import { prisma } from "../../../shared/prisma";
-import { IUser } from "./user.interface";
+
+export interface IUser {
+  id?: string;
+  name: string;
+  email: string;
+  password?: string;
+  role: string;
+  contactNo: string;
+  address: string;
+  profileImg: string;
+  orders: Order[];
+  ratings: Rating[];
+}
 
 const getAllUsers = async (): Promise<IUser[]> => {
   const result = await prisma.user.findMany({
