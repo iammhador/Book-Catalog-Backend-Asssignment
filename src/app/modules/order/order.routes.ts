@@ -6,6 +6,11 @@ const router = express.Router();
 
 router
   .get("/", auth(ENUM_USER_ROLE.ADMIN), OrderController.getAllOrder)
+  .get(
+    "/:orderId",
+    auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
+    OrderController.getSpecificOrder
+  )
   .post(
     "/create-order",
     auth(ENUM_USER_ROLE.CUSTOMER),

@@ -7,8 +7,8 @@ export interface IUser {
   contactNo: string;
   address: string;
   profileImg: string;
-  orders: any[];
-  ratings: any[];
+  orders?: any[];
+  ratings?: any[];
 }
 
 export interface IAuthUser {

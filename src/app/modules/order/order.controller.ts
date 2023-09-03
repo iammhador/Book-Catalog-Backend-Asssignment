@@ -12,6 +12,16 @@ const getAllOrder = async (req: Request, res: Response) => {
   });
 };
 
+const getSpecificOrder = async (req: Request, res: Response) => {
+  const result = await OrderService.getSpecificOrder(req?.user);
+  res.send({
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Order fetched successfully",
+    data: result,
+  });
+};
+
 const createOrder = async (req: Request, res: Response) => {
   const result = await OrderService.createOrder(req.body);
   res.send({
@@ -34,6 +44,7 @@ const createOrderBook = async (req: Request, res: Response) => {
 
 export const OrderController = {
   getAllOrder,
+  getSpecificOrder,
   createOrder,
   createOrderBook,
 };
